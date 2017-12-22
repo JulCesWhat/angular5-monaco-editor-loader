@@ -1,7 +1,7 @@
 # Angular 5 Monaco Editor Loader
 >Build an Angular 5 application with Monaco Editor.
 
-This package allows you to load Monaco Editor in your **Angular v5** apps written in _TypeScript_, _ES6_ or _ES5_. 
+This library allows you to load Monaco Editor in your **Angular v5** apps written in _TypeScript_, _ES6_ or _ES5_. 
 The project is based on the official _Angular_ packages and xyz.MonacoEditorLoader.
 
 
