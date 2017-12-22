@@ -1,183 +1,211 @@
-# monaco-editor-loader
-[![Build Status](https://travis-ci.org/robisim74/monaco-editor-loader.svg?branch=master)](https://travis-ci.org/robisim74/monaco-editor-loader)
->Build an Angular library compatible with AoT compilation &amp; Tree shaking.
+# Angular 5 Monaco Editor Loader
+>Build an Angular 5 application with Monaco Editor.
 
-This starter allows you to create a library for **Angular v5** apps written in _TypeScript_, _ES6_ or _ES5_. 
-The project is based on the official _Angular_ packages.
+This package allows you to load Monaco Editor in your **Angular v5** apps written in _TypeScript_, _ES6_ or _ES5_. 
+The project is based on the official _Angular_ packages and xyz.MonacoEditorLoader.
 
-Get the [Changelog](https://github.com/robisim74/monaco-editor-loader/blob/master/CHANGELOG.md).
+
+Install with the command:
+
+```
+npm i @julceswhat/angular5-monaco-editor-loader
+```
+
+An easy to use Monaco Editor Loader Service for Angular 5! Just add `*loadMonacoEditor` in your HTML Element, and you don't have to worry about timing issues!
+
+```
+<div *loadMonacoEditor id="container"></div> 
+
+```
+
+With custom monaco-editor path
+```
+<div *loadMonacoEditor="'libs/monaco-editor/vs'" id="container"></div> 
+
+```
+
+Get the [Changelog](https://github.com/julceswhat/angular5-monaco-editor-loader/blob/master/CHANGELOG.md).
 
 ## Contents
-* [1 Project structure](#1)
-* [2 Customizing](#2)
-* [3 Testing](#3)
-* [4 Building](#4)
-* [5 Publishing](#5)
-* [6 Documentation](#6)
-* [7 Using the library](#7)
-* [8 What it is important to know](#8)
+* [1 Prerequisites](#1)
+* [2 Using webpack](#2)
+* [3 Using Angular CLI](#3)
+* [4 Using the Library](#4)
+* [5 Motivation](#5)
 
-## <a name="1"></a>1 Project structure
-- Library:
-    - **src** folder for the classes
-    - **public_api.ts** entry point for all public APIs of the package
-    - **package.json** _npm_ options
-    - **rollup.config.js** _Rollup_ configuration for building the _umd_ bundles
-    - **rollup.es.config.js** _Rollup_ configuration for building the _es2015_ bundles
-    - **tsconfig-build.json** _ngc_ compiler options for _AoT compilation_
-    - **build.js** building process using _ShellJS_
-- Testing:
-    - **tests** folder for unit & integration tests
-    - **karma.conf.js** _Karma_ configuration that uses _webpack_ to build the tests
-    - **spec.bundle.js** defines the files used by _webpack_
-- Extra:
-    - **tslint.json** _TypeScript_ linter rules with _Codelyzer_
-    - **travis.yml** _Travis CI_ configuration
+## <a name="1"></a>1 Prerequisites
 
-## <a name="2"></a>2 Customizing
-1. Update [Node & npm](https://docs.npmjs.com/getting-started/installing-node).
+1. Make sure that you are serving `Monaco Editor` in `/assets/monaco-editor/vs`
 
-2. Rename `monaco-editor-loader` and `monacoEditorLoader` everywhere to `my-library` and `myLibrary`. Also customize the `license-banner.txt` file.
+2. If you are using straight `app.component` then **DO NOT USE the directive**. Instead use the following code in `app.component.ts`:
 
-3. Update in `package.json` file:
-    - version: [Semantic Versioning](http://semver.org/)
-    - description
-    - urls
-    - packages (optional): make sure you use a version of _TypeScript_ compatible with _Angular Compiler_
-
-    and run `npm install`.
-
-4. Create your classes in `src` folder, and export public classes in `my-library.ts`.
-
-5. You can create only one _module_ for the whole library: 
-I suggest you create different _modules_ for different functions, 
-so that the user can import only those he needs and optimize _Tree shaking_ of his app.
-
-6. Update in `rollup.config.js` file `globals` external dependencies with those that actually you use.
-
-7. Create unit & integration tests in `tests` folder, or unit tests next to the things they test in `src` folder, always using `.spec.ts` extension. 
-_Karma_ is configured to use _webpack_ only for `*.ts` files.
-
-## <a name="3"></a>3 Testing
-The following command run unit & integration tests that are in the `tests` folder (you can change the folder in `spec.bundle.js` file): 
-```Shell
-npm test 
 ```
-It also reports coverage using Istanbul.
+  constructor(private monaco: MonacoEditorLoaderService) {
 
-## <a name="4"></a>4 Building
-The following command:
-```Shell
-npm run build
-```
-- starts _TSLint_ with _Codelyzer_
-- starts _AoT compilation_ using _ngc_ compiler
-- creates `dist` folder with all the files of distribution
+  }
 
-To test locally the npm package:
-```Shell
-npm run pack-lib
-```
-Then you can install it in an app to test it:
-```Shell
-npm install [path]my-library-[version].tgz
+  this.monaco.isMonacoLoaded.subscribe(value => {
+      if (value) {
+        // Initialize monaco...
+      }
+    })
 ```
 
-## <a name="5"></a>5 Publishing
-Before publishing the first time:
-- you can register your library on [Travis CI](https://travis-ci.org/): you have already configured `.travis.yml` file
-- you must have a user on the _npm_ registry: [Publishing npm packages](https://docs.npmjs.com/getting-started/publishing-npm-packages)
+3. If you are creating a component on top of monaco, then just use the directive `*loadMonacoEditor` inside your component's HTML
 
-```Shell
-npm run publish-lib
+## <a name="2"></a>2 Using webpack
+If you are using `Webpack` do the following:
+```
+plugins: [
+     new CopyWebpackPlugin([
+         {
+             from: 'node_modules/monaco-editor/min/vs',
+             to: './src/assets/monaco',
+         }
+     ]),
+ ],
+ ```
+
+## <a name="3"></a>3 Using Angular CLI
+
+1. For development modify `.angular-cli.json` to the following:
+ ```
+ "assets": [
+        {
+          "glob": "**/*",
+          "input": "../node_modules/monaco-editor/dev/",
+          "output": "./assets/monaco-editor/"
+        },
+        {
+          "glob": "favicon.ico",
+          "input": "./",
+          "output": "./"
+        }
+      ]
 ```
 
-## <a name="6"></a>6 Documentation
-To generate the documentation, this starter uses [compodoc](https://github.com/compodoc/compodoc):
-```Shell
-npm run compodoc
-npm run compodoc-serve 
+2. For production modify `.angular-cli.json` to the following:
+Modify `.angular-cli.json` to the following:
+ ```
+ "assets": [
+        {
+          "glob": "**/*",
+          "input": "../node_modules/monaco-editor/min/",
+          "output": "./assets/monaco-editor/"
+        },
+        {
+          "glob": "**/*",
+          "input": "../node_modules/monaco-editor/min-maps/",
+          "output": "./assets/min-maps/"
+        },
+        {
+          "glob": "favicon.ico",
+          "input": "./",
+          "output": "./"
+        }
+      ]
 ```
 
-## <a name="7"></a>7 Using the library
-### Installing
-```Shell
-npm install my-library --save 
+3. Add `/// <reference path="./../node_modules/monaco-editor/monaco.d.ts" />` in you `typings.d.ts` file to remove monaco editor undefined errors and allow compilation.
+
+## <a name="4"></a>4 Usage
+
+1. In your component's module or app module. Import the following:
+
 ```
-### Loading
-#### Using SystemJS configuration
-```JavaScript
-System.config({
-    map: {
-        'my-library': 'node_modules/my-library/bundles/my-library.umd.js'
-    }
-});
+import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { MonacoEditorLoaderModule, MonacoEditorLoaderService } from '@julceswhat/angular5-monaco-editor-loader';
+
+import { AppComponent } from './app.component';
+import { MonacoEditorComponent } from './monaco-editor/monaco-editor.component';
+
+@NgModule({
+  declarations: [
+    AppComponent,
+    MonacoEditorComponent
+  ],
+  imports: [
+    BrowserModule,
+    MonacoEditorLoaderModule <-- Insert this>
+  ],
+  bootstrap: [AppComponent]
+})
+export class AppModule { }
+
 ```
-#### Angular-CLI
-No need to set up anything, just import it in your code.
-#### Rollup or webpack
-No need to set up anything, just import it in your code.
-#### Plain JavaScript
-Include the `umd` bundle in your `index.html`:
-```Html
-<script src="node_modules/my-library/bundles/my-library.umd.js"></script>
+
+2. Just add `*loadMonacoEditor`, so with your custom component where you plan to create your own monaco component. Just add the following:
+
 ```
-and use global `ng.myLibrary` namespace.
+<monaco-editor *loadMonacoEditor></monaco-editor>
+```
 
-### AoT compilation
-The library is compatible with _AoT compilation_.
+3. And in my custom component where I want to host `Monaco Editor` I just do the following like I expect the Monaco library to be loaded at this point:
 
-## <a name="8"></a>8 What it is important to know
-1. `package.json`
+```
+import { Component, OnInit } from '@angular/core';
 
-    * `"main": "./bundles/monaco-editor-loader.umd.js"` legacy module format 
-    * `"module": "./esm5/monaco-editor-loader.js"` flat _ES_ module, for using module bundlers such as _Rollup_ or _webpack_: 
-    [package module](https://github.com/rollup/rollup/wiki/pkg.module)
-    * `"es2015": "./esm2015/monaco-editor-loader.js"` _ES2015_ flat _ESM_ format, experimental _ES2015_ build
-    * `"peerDependencies"` the packages and their versions required by the library when it will be installed
+@Component({
+  selector: 'monaco-editor',
+  templateUrl: './monaco-editor.component.html',
+  styleUrls: ['./monaco-editor.component.css']
+})
+export class MonacoEditorComponent implements OnInit {
 
-2. `tsconfig.json` file used by _TypeScript_ compiler
+  constructor() { }
 
-    * Compiler options:
-        * `"strict": true` enables _TypeScript_ `strict` master option
+  ngOnInit() {
+    monaco.languages.typescript.javascriptDefaults.setDiagnosticsOptions({
+      noSemanticValidation: true,
+      noSyntaxValidation: false
+    });
 
-3. `tsconfig-build.json` file used by _ngc_ compiler
+    // compiler options
+    monaco.languages.typescript.javascriptDefaults.setCompilerOptions({
+      target: monaco.languages.typescript.ScriptTarget.ES2016,
+      allowNonTsExtensions: true
+    });
 
-    * Compiler options:
-        * `"declaration": true` to emit _TypeScript_ declaration files
-        * `"module": "es2015"` & `"target": "es2015"` are used by _Rollup_ to create the _ES2015_ bundle
+    // extra libraries
+    monaco.languages.typescript.javascriptDefaults.addExtraLib([
+      'declare class Facts {',
+      '    /**',
+      '     * Returns the next fact',
+      '     */',
+      '    static next():string',
+      '}',
+    ].join('\n'), 'filename/facts.d.ts');
 
-    * Angular Compiler Options:
-        * `"skipTemplateCodegen": true,` skips generating _AoT_ files
-        * `"annotateForClosureCompiler": true` for compatibility with _Google Closure compiler_
-        * `"strictMetadataEmit": true` without emitting metadata files, the library will not be compatible with _AoT compilation_: to report syntax errors immediately rather than produce a _.metadata.json_ file with errors
+    var jsCode = [
+      '"use strict";',
+      '',
+      "class Chuck {",
+      "    greet() {",
+      "        return Facts.next();",
+      "    }",
+      "}"
+    ].join('\n');
 
-4. `rollup.config.js` file used by _Rollup_
+    monaco.editor.create(document.getElementById("container"), {
+      value: jsCode,
+      language: "javascript"
+    });
+  }
 
-    * `format: 'umd'` the _Universal Module Definition_ pattern is used by _Angular_ for its bundles
-    * `moduleName: 'ng.monacoEditorLoader'` defines the global namespace used by _JavaScript_ apps
-    * `external` & `globals` declare the external packages
+}
+```
 
-5. Server Side Rendering
+4. And that's it! No `timeouts`! No `then`! It just goes with the correct flow in Angular!
 
-    If you want the library will be compatible with Server Side Rendering:
-    * `window`, `document`, `navigator` and other browser types do not exist on the server
-    * don't manipulate the _nativeElement_ directly
+## <a name="5"></a>5 Motivation
+I wanted to use Monaco Editor with my Angular 5 project, but couldn't find any library that would help me with this. Since I couldn't find anything, I decided to refactor a library that worked for previous Angular versions.
 
-## Built with this starter
-- [angular-l10n](https://github.com/robisim74/angular-l10n) *An Angular library to translate messages, dates and numbers*
-- [angular-auth-oidc-client](https://github.com/damienbod/angular-auth-oidc-client) *An OpenID Connect Implicit Flow client for Angular*
-- [ngx-infinite-scroll](https://github.com/orizens/ngx-infinite-scroll) *An infinite scroll directive for Angular compatible with AoT compilation and Tree shaking*
-- [ngx-typeahead](https://github.com/orizens/ngx-typeahead) *A simple but yet powerful typeahead component for Angular*
-- [ng2-youtube-player](https://github.com/orizens/ng2-youtube-player) *A Powerful Youtube Player Component for Angular*
-- [ng2-completer](https://github.com/oferh/ng2-completer) *Angular autocomplete component*
+Most of the code that was found [here](https://github.com/leolorenzoluis/xyz.MonacoEditorLoader) just wasn't working with Angular 5.
 
 ## Previous versions
-- **Angular v4**
-    - [Branch](https://github.com/robisim74/monaco-editor-loader/tree/angular_v4)
-
-- **Angular v2**
-    - [Branch](https://github.com/robisim74/monaco-editor-loader/tree/angular_v2)
+- **Angular v4** &amp; **Angular v2**
+    - [Branch](https://github.com/leolorenzoluis/xyz.MonacoEditorLoader)
 
 ## License
 MIT
