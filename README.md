@@ -207,8 +207,6 @@ Make sure you have **Angular CLI** installed!
 3. `npm install`
 4. `ng serve`
 
-Most of the code that was found [here](https://github.com/leolorenzoluis/xyz.MonacoEditorLoader) just wasn't working with Angular 5.
-
 ## <a name="6"></a>6 Motivation
 I wanted to use Monaco Editor with my Angular 5 project, but couldn't find any library that would help me with this. Since I couldn't find anything, I decided to refactor a library that worked for previous Angular versions.
 
