@@ -18,12 +18,12 @@
     "author": "JulCesWhat",
     "repository": {
         "type": "git",
-        "url": "https://github.com/julceswhat/monaco-editor-loader.git"
+        "url": "https://github.com/JulCesWhat/angular5-monaco-editor-loader.git"
     },
     "bugs": {
-        "url": "https://github.com/julcewhat/monaco-editor-loader/issues"
+        "url": "https://github.com/JulCesWhat/angular5-monaco-editor-loader/issues"
     },
-    "homepage": "https://github.com/julceswhat/monaco-editor-loader",
+    "homepage": "https://github.com/JulCesWhat/angular5-monaco-editor-loader",
     "keywords": [
         "monaco",
         "monaco-editor",

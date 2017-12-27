@@ -31,7 +31,8 @@ Get the [Changelog](https://github.com/julceswhat/angular5-monaco-editor-loader/
 * [2 Using webpack](#2)
 * [3 Using Angular CLI](#3)
 * [4 Using the Library](#4)
-* [5 Motivation](#5)
+* [5 Running the demo app](#5)
+* [6 Motivation](#6)
 
 ## <a name="1"></a>1 Prerequisites
 
@@ -198,7 +199,17 @@ export class MonacoEditorComponent implements OnInit {
 
 4. And that's it! No `timeouts`! No `then`! It just goes with the correct flow in Angular!
 
-## <a name="5"></a>5 Motivation
+## <a name="5"></a>5 Running the demo app
+Make sure you have **Angular CLI** installed!
+
+1. Clone this repository
+2. `cd demo`
+3. `npm install`
+4. `ng serve`
+
+Most of the code that was found [here](https://github.com/leolorenzoluis/xyz.MonacoEditorLoader) just wasn't working with Angular 5.
+
+## <a name="6"></a>6 Motivation
 I wanted to use Monaco Editor with my Angular 5 project, but couldn't find any library that would help me with this. Since I couldn't find anything, I decided to refactor a library that worked for previous Angular versions.
 
 Most of the code that was found [here](https://github.com/leolorenzoluis/xyz.MonacoEditorLoader) just wasn't working with Angular 5.
