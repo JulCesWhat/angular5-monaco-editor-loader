@@ -33,13 +33,12 @@
     ],
     "license": "MIT",
     "dependencies": {
-        "tslib": "^1.7.1",
-        "@angular/core": ">= 5.0.0",
-        "zone.js": "0.8.18",
-        "rxjs": "5.5.2"
+        "@angular/core": "^5.2.0",
+        "rxjs": "5.5.2",
+        "tslib": "^1.8.1",
+        "zone.js": "0.8.18"
     },
-    "peerDependencies": {
-    },
+    "peerDependencies": {},
     "devDependencies": {
         "@angular/animations": "5.0.0",
         "@angular/common": "5.0.0",
@@ -48,7 +47,6 @@
         "@angular/platform-browser": "5.0.0",
         "@angular/platform-browser-dynamic": "5.0.0",
         "@angular/platform-server": "5.0.0",
-        "@compodoc/compodoc": "1.0.3",
         "@types/jasmine": "2.6.2",
         "@types/node": "8.0.47",
         "chalk": "2.3.0",
