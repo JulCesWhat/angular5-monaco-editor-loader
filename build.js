@@ -21,7 +21,7 @@ shell.mkdir(`-p`, `./${BUNDLES_DIR}`);
 // https://github.com/palantir/tslint/blob/master/src/configs/recommended.ts
 // https://github.com/mgechev/codelyzer
 shell.echo(`Start TSLint`);
-shell.exec(`tslint -c tslint.json -t stylish src/**/*.ts`);
+shell.exec(`tslint -p tslint.json -t stylish src/**/*.ts`);
 shell.echo(chalk.green(`TSLint completed`));
 
 /* AoT compilation */
@@ -69,5 +69,7 @@ shell.rm(`-Rf`, `${NPM_DIR}/src/**/*.js`);
 shell.rm(`-Rf`, `${NPM_DIR}/src/**/*.js.map`);
 
 shell.cp(`-Rf`, [`package.json`, `LICENSE`, `README.md`], `${NPM_DIR}`);
+
+shell.sed('-i', `"private": true,`, `"private": false,`, `./${NPM_DIR}/package.json`);
 
 shell.echo(chalk.green(`End building`));
