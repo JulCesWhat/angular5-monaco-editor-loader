@@ -1,7 +1,7 @@
 {
     "name": "@julceswhat/angular5-monaco-editor-loader",
     "private": true,
-    "version": "1.0.1",
+    "version": "1.0.2",
     "description": "An awesome angular 5 monaco editor loader.",
     "main": "./bundles/monaco-editor-loader.umd.js",
     "module": "./esm5/monaco-editor-loader.js",
